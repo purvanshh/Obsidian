@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import { Layout } from './components/Layout';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
@@ -8,10 +9,12 @@ import { Files } from './pages/Files';
 import { Calendar } from './pages/Calendar';
 import { Profile } from './pages/Profile';
 
-function App() {
+function AppRoutes() {
+  const location = useLocation();
+
   return (
-    <BrowserRouter>
-      <Routes>
+    <AnimatePresence mode="wait" initial={false}>
+      <Routes location={location} key={location.pathname}>
         <Route path="/" element={<Landing />} />
         <Route path="/dashboard" element={<Layout><Dashboard /></Layout>} />
         <Route path="/tasks" element={<Layout><Tasks /></Layout>} />
@@ -20,6 +23,14 @@ function App() {
         <Route path="/insights" element={<Layout><Insights /></Layout>} />
         <Route path="/profile" element={<Layout><Profile /></Layout>} />
       </Routes>
+    </AnimatePresence>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
     </BrowserRouter>
   );
 }

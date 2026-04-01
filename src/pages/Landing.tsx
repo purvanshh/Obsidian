@@ -1,8 +1,12 @@
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { PageTransition, SectionReveal, StaggerList, interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion';
 
 export function Landing() {
+  const MotionLink = motion(Link);
+
   return (
-    <div className="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
+    <PageTransition as="div" className="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
       <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-14 bg-[#0e0e0e]/80 backdrop-blur-xl shadow-[0px_0px_20px_rgba(162,255,191,0.06)]">
         <Link to="/" className="text-xl font-bold tracking-tighter text-[#fcf9f8] font-headline">OBSIDIAN</Link>
         <div className="hidden md:flex items-center space-x-12">
@@ -24,7 +28,7 @@ export function Landing() {
           <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#00e3fd]/10 blur-[120px] rounded-full"></div>
           <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
         </div>
-        <div className="relative z-10 text-center px-6 max-w-5xl">
+        <SectionReveal className="relative z-10 text-center px-6 max-w-5xl">
           <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-surface-container-low border border-outline-variant/15 mb-8">
             <span className="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
             <span className="text-[10px] font-bold tracking-widest uppercase text-on-surface-variant font-label">System Online: v2.4.0</span>
@@ -36,15 +40,22 @@ export function Landing() {
             Focus on flow, not just features. Our interface disappears so your work can take center stage. Built for the elite productivity of the modern era.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6">
-            <Link to="/dashboard" className="neon-glow-btn pulse-gradient px-10 py-4 rounded-full text-on-primary font-bold text-sm uppercase tracking-widest transition-all duration-300 transform hover:scale-105 active:scale-95">
+            <MotionLink
+              to="/dashboard"
+              className="neon-glow-btn pulse-gradient px-10 py-4 rounded-full text-on-primary font-bold text-sm uppercase tracking-widest focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70"
+              {...interactiveButton}
+            >
               Get Started
-            </Link>
-            <button className="group px-10 py-4 rounded-full text-primary font-bold text-sm uppercase tracking-widest relative overflow-hidden transition-all duration-300">
+            </MotionLink>
+            <motion.button
+              className="group px-10 py-4 rounded-full text-primary font-bold text-sm uppercase tracking-widest relative overflow-hidden focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70"
+              {...interactiveButton}
+            >
               <span className="relative z-10">See Features</span>
               <span className="absolute bottom-0 left-1/2 w-0 h-[1px] bg-primary transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </SectionReveal>
         <div className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center space-y-2 opacity-50">
           <span className="text-[10px] uppercase tracking-[0.3em] font-bold text-on-surface-variant">Scroll</span>
           <span className="material-symbols-outlined text-[#00e3fd] animate-bounce">expand_more</span>
@@ -52,8 +63,16 @@ export function Landing() {
       </section>
 
       <section className="py-24 px-8 max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="md:col-span-2 glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col justify-between group transition-all duration-300 hover:border-primary/20">
+        <StaggerList className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <motion.div
+            className="md:col-span-2 glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col justify-between"
+            variants={itemFadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={transitions.medium}
+            {...interactiveCard}
+          >
             <div>
               <span className="material-symbols-outlined text-[#00e3fd] text-4xl mb-6">target</span>
               <h3 className="font-headline text-3xl font-bold mb-4 text-[#fcf9f8] uppercase tracking-tight">The Obsidian Flow</h3>
@@ -62,8 +81,16 @@ export function Landing() {
             <div className="mt-12 h-48 rounded-lg bg-surface-container-lowest relative overflow-hidden">
               <img alt="Flow State Visualization" className="w-full h-full object-cover opacity-60" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWmc8y0D4AqAWLdDqpEQKIoTZ_w7LBIZgMreHRFTTMgEG_zasFi00KyRMtyFMxtIh2IZNIyUlRC12hcv65_k9ZW_c4RkTPV8wV2UqqxLW7qnLiSLV0Xw61ihOgEUX4-X_HRjDpgJP-N4c8JL8BULzuvnc31c8C-SK4KwUVZ3dpXrI4rvaP4IxnOA6kTT2qRU24h_mNkwaVsLqiIMmlP6wM7lF7cNUuv4ktdF1fDH_R5Gj3BKJV6npgQE3KPKzpJCWC9ODOx6ltCgf4"/>
             </div>
-          </div>
-          <div className="glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col justify-between hover:border-[#00e3fd]/20 transition-all duration-300">
+          </motion.div>
+          <motion.div
+            className="glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col justify-between"
+            variants={itemFadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={transitions.medium}
+            {...interactiveCard}
+          >
             <span className="material-symbols-outlined text-primary text-4xl mb-6">query_stats</span>
             <div>
               <h3 className="font-headline text-3xl font-bold mb-4 text-[#fcf9f8] uppercase tracking-tight">Rapid <br/> Insights</h3>
@@ -80,15 +107,31 @@ export function Landing() {
               </div>
               <p className="text-[10px] font-label uppercase tracking-widest text-on-surface-variant mt-6">Automated tracking engine active</p>
             </div>
-          </div>
-          <div className="glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col items-center justify-center text-center hover:border-primary/20 transition-all duration-300">
+          </motion.div>
+          <motion.div
+            className="glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-col items-center justify-center text-center"
+            variants={itemFadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={transitions.medium}
+            {...interactiveCard}
+          >
             <div className="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-6">
               <span className="material-symbols-outlined text-primary text-3xl">checklist</span>
             </div>
             <h4 className="font-headline text-xl font-bold text-[#fcf9f8] uppercase tracking-wide">Zero Friction</h4>
             <p className="text-sm text-on-surface-variant mt-2">Add tasks in <span className="text-primary">0.4s</span></p>
-          </div>
-          <div className="md:col-span-2 glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-row items-center justify-between hover:border-[#00e3fd]/20 transition-all duration-300">
+          </motion.div>
+          <motion.div
+            className="md:col-span-2 glass-card rounded-xl p-8 border border-outline-variant/15 flex flex-row items-center justify-between"
+            variants={itemFadeUp}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.2 }}
+            transition={transitions.medium}
+            {...interactiveCard}
+          >
             <div className="max-w-xs">
               <h4 className="font-headline text-xl font-bold text-[#fcf9f8] uppercase tracking-wide">Deep Integration</h4>
               <p className="text-sm text-on-surface-variant mt-2">Sync your entire ecosystem into a single glass surface. Real-time updates across all devices.</p>
@@ -98,16 +141,16 @@ export function Landing() {
               <div className="w-12 h-12 rounded-full bg-surface-container-highest border-2 border-background flex items-center justify-center"><span className="material-symbols-outlined text-primary text-xl">cloud_sync</span></div>
               <div className="w-12 h-12 rounded-full bg-surface-container-highest border-2 border-background flex items-center justify-center"><span className="material-symbols-outlined text-[#fcf9f8] text-xl">terminal</span></div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </StaggerList>
       </section>
 
       <section className="py-24 px-8 max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-16">
-        <div className="w-full md:w-1/2 relative">
+        <SectionReveal className="w-full md:w-1/2 relative">
           <div className="absolute -inset-4 bg-primary/5 blur-2xl rounded-full"></div>
           <img alt="Obsidian Interface" className="relative rounded-2xl shadow-2xl border border-outline-variant/15 grayscale hover:grayscale-0 transition-all duration-700" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCGDIBJFz9TY_76z1mzRbuNuFeasR8C5DtH0BOmAEVWEG_u3eRuqLwPh4Jdnj4-nx1s5_0X9F5lV5Vl9nTot_vj7-HM6AdCJJpZm3urmJ7ldCu-M9D62BD1UHZlLLze3-lZ9yMZf-tKiSq5iu9PpyjHo3R9wgziI4Vc5JA06OloBRMiBnQ1DPKKYxWVlknGMMTm62s2lqhaBCARckD8eA-RS8RZ1wwLM6l_JW9TbqucGzfxa63h5pjlh8dD4CAJyW44UdN6CWGnpbPG"/>
-        </div>
-        <div className="w-full md:w-1/2 space-y-8">
+        </SectionReveal>
+        <SectionReveal className="w-full md:w-1/2 space-y-8">
           <h2 className="font-headline text-4xl md:text-5xl font-extrabold tracking-tighter text-[#fcf9f8] uppercase">Focus is the <br/> Ultimate Currency</h2>
           <div className="space-y-6">
             <div className="flex gap-4">
@@ -126,12 +169,12 @@ export function Landing() {
             </div>
           </div>
           <div className="pt-4">
-            <button className="text-primary font-bold uppercase tracking-[0.2em] text-xs flex items-center group">
+            <motion.button className="text-primary font-bold uppercase tracking-[0.2em] text-xs flex items-center group focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70" {...interactiveButton}>
               Learn about our philosophy
               <span className="material-symbols-outlined ml-2 transition-transform group-hover:translate-x-2">arrow_forward</span>
-            </button>
+            </motion.button>
           </div>
-        </div>
+        </SectionReveal>
       </section>
 
       <footer className="bg-surface-container-low pt-16 pb-8 px-8">
@@ -168,6 +211,6 @@ export function Landing() {
           <span className="font-label text-[10px] uppercase tracking-widest font-bold mt-1">Profile</span>
         </button>
       </nav>
-    </div>
+    </PageTransition>
   );
 }
