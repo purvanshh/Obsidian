@@ -12,21 +12,21 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-[#080808]/80 backdrop-blur-lg border-t border-white/15 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] rounded-t-3xl h-20 px-6 pb-safe flex justify-around items-center">
-      <Link to="/dashboard" className={getLinkClass('/dashboard')}>
-        <span className="material-symbols-outlined" style={path === '/dashboard' ? { fontVariationSettings: "'FILL' 1" } : {}}>home</span>
+    <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-[#080808]/80 backdrop-blur-lg border-t border-white/15 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] h-20 px-4 sm:px-8 pb-safe flex justify-around items-center">
+      <Link to="/dashboard" className={`${getLinkClass('/dashboard')} p-2 min-w-[64px]`}>
+        <span className="material-symbols-outlined text-[28px]" style={path === '/dashboard' ? { fontVariationSettings: "'FILL' 1" } : {}}>home</span>
         <span className="font-label text-[10px] uppercase tracking-widest mt-1">Home</span>
       </Link>
-      <Link to="/tasks" className={getLinkClass('/tasks')}>
-        <span className="material-symbols-outlined" style={path.startsWith('/tasks') ? { fontVariationSettings: "'FILL' 1" } : {}}>assignment</span>
+      <Link to="/tasks" className={`${getLinkClass('/tasks')} p-2 min-w-[64px]`}>
+        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/tasks') ? { fontVariationSettings: "'FILL' 1" } : {}}>assignment</span>
         <span className="font-label text-[10px] uppercase tracking-widest mt-1">Tasks</span>
       </Link>
-      <Link to="/insights" className={getLinkClass('/insights')}>
-        <span className="material-symbols-outlined" style={path.startsWith('/insights') ? { fontVariationSettings: "'FILL' 1" } : {}}>bar_chart</span>
+      <Link to="/insights" className={`${getLinkClass('/insights')} p-2 min-w-[64px]`}>
+        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/insights') ? { fontVariationSettings: "'FILL' 1" } : {}}>bar_chart</span>
         <span className="font-label text-[10px] uppercase tracking-widest mt-1">Analytics</span>
       </Link>
-      <div className="flex flex-col items-center justify-center text-[#adaaaa] active:scale-90 transition-transform duration-200 cursor-pointer">
-        <span className="material-symbols-outlined">person</span>
+      <div className="flex flex-col items-center justify-center p-2 min-w-[64px] text-[#adaaaa] active:scale-90 transition-transform duration-200 cursor-pointer">
+        <span className="material-symbols-outlined text-[28px]">person</span>
         <span className="font-label text-[10px] uppercase tracking-widest mt-1">Profile</span>
       </div>
     </nav>

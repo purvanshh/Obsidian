@@ -1,14 +1,14 @@
 export function Tasks() {
   return (
-    <div className="max-w-7xl mx-auto">
-      <header className="mb-12">
-        <div className="inline-block px-3 py-1 rounded-full bg-surface-container-high border border-primary/20 text-primary text-[10px] font-bold tracking-[0.2em] uppercase mb-4">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
+      <header className="mb-10 lg:mb-16 mt-2 flex flex-col gap-2">
+        <div className="inline-block self-start px-4 py-1.5 rounded-full bg-surface-container-high border border-primary/20 text-primary text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase mb-2 shadow-sm">
           Operational Status: Active
         </div>
-        <h1 className="text-5xl md:text-6xl font-headline font-extrabold tracking-tighter mb-4 leading-none text-white">
-          System <span className="text-primary">Protocol</span>
+        <h1 className="text-4xl sm:text-5xl md:text-[4rem] font-headline font-extrabold tracking-tighter leading-tight text-white mb-2">
+          System <span className="text-primary drop-shadow-[0_0_10px_rgba(162,255,191,0.3)]">Protocol</span>
         </h1>
-        <p className="text-on-surface-variant max-w-xl font-medium">
+        <p className="text-on-surface-variant max-w-xl font-medium text-sm sm:text-base leading-relaxed">
           Precision workspace for high-output environments. Align your habits with elite operational standards.
         </p>
       </header>
@@ -25,37 +25,37 @@ export function Tasks() {
             </div>
           </div>
           <div>
-            <h2 className="text-xl font-headline font-bold mb-6 flex items-center gap-2 text-white">
-              <span className="w-1.5 h-6 bg-primary rounded-full"></span>
+            <h2 className="text-xl sm:text-2xl font-headline font-bold mb-8 flex items-center gap-3 text-white">
+              <span className="w-1.5 h-6 sm:h-7 bg-primary rounded-full shadow-[0_0_8px_rgba(162,255,191,0.5)]"></span>
               Today's Protocol
             </h2>
-            <div className="space-y-4">
-              <div className="group flex items-center justify-between p-5 bg-surface-container-low rounded-2xl border border-white/5 transition-all duration-300 hover:scale-[1.01] hover:bg-surface-container-high hover:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)] cursor-pointer">
-                <div className="flex items-center gap-5">
-                  <button className="w-6 h-6 rounded-lg border-2 border-primary/40 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:shadow-[0_0_15px_rgba(162,255,191,0.5)] active:scale-95">
-                    <span className="material-symbols-outlined text-primary text-[16px] opacity-0 group-hover:opacity-50" style={{ fontVariationSettings: "'wght' 700" }}>check</span>
+            <div className="space-y-6">
+              <div className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 gap-6 bg-surface-container-low rounded-3xl border border-white/5 transition-all duration-300 hover:scale-[1.01] hover:bg-surface-container-high hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.5)] cursor-pointer">
+                <div className="flex items-start sm:items-center gap-5 sm:gap-6">
+                  <button className="shrink-0 mt-1 sm:mt-0 w-7 h-7 rounded-lg border-2 border-primary/40 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:shadow-[0_0_15px_rgba(162,255,191,0.5)] active:scale-95">
+                    <span className="material-symbols-outlined text-primary text-[18px] opacity-0 group-hover:opacity-50" style={{ fontVariationSettings: "'wght' 700" }}>check</span>
                   </button>
                   <div>
-                    <h3 className="text-sm font-semibold text-white tracking-tight">Finalize Q4 Strategic Monolith</h3>
-                    <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">High Priority • Due 14:00</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-white tracking-tight leading-tight">Finalize Q4 Strategic Objectives</h3>
+                    <p className="text-xs text-on-surface-variant font-medium mt-1">High Priority • Due 14:00</p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter">Strategic</span>
+                <div className="flex shrink-0 lg:ml-auto">
+                  <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter self-start sm:self-auto">Strategic</span>
                 </div>
               </div>
-              <div className="group flex items-center justify-between p-5 bg-surface-container-low rounded-2xl border border-white/5 transition-all duration-300 hover:scale-[1.01] hover:bg-surface-container-high cursor-pointer">
-                <div className="flex items-center gap-5">
-                  <button className="w-6 h-6 rounded-lg border-2 border-primary/40 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:shadow-[0_0_15px_rgba(162,255,191,0.5)] active:scale-95">
-                    <span className="material-symbols-outlined text-primary text-[16px] opacity-0 group-hover:opacity-50" style={{ fontVariationSettings: "'wght' 700" }}>check</span>
+              <div className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 gap-6 bg-surface-container-low rounded-3xl border border-white/5 transition-all duration-300 hover:scale-[1.01] hover:bg-surface-container-high cursor-pointer shadow-sm">
+                <div className="flex items-start sm:items-center gap-5 sm:gap-6">
+                  <button className="shrink-0 mt-1 sm:mt-0 w-7 h-7 rounded-lg border-2 border-primary/40 flex items-center justify-center transition-all duration-300 hover:scale-125 hover:shadow-[0_0_15px_rgba(162,255,191,0.5)] active:scale-95">
+                    <span className="material-symbols-outlined text-primary text-[18px] opacity-0 group-hover:opacity-50" style={{ fontVariationSettings: "'wght' 700" }}>check</span>
                   </button>
                   <div>
-                    <h3 className="text-sm font-semibold text-white tracking-tight">Conduct System Integrity Audit</h3>
-                    <p className="text-[11px] text-on-surface-variant font-medium mt-0.5">Medium • Monthly Recurring</p>
+                    <h3 className="text-base sm:text-lg font-semibold text-white tracking-tight leading-tight">Conduct System Integrity Audit</h3>
+                    <p className="text-xs text-on-surface-variant font-medium mt-1">Medium • Monthly Recurring</p>
                   </div>
                 </div>
-                <div className="flex gap-2">
-                  <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter">System</span>
+                <div className="flex shrink-0 lg:ml-auto">
+                  <span className="px-3 py-1.5 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter self-start sm:self-auto shadow-sm">System</span>
                 </div>
               </div>
               <div className="flex items-center p-5 bg-surface-container-low/40 rounded-2xl border border-white/5">
@@ -75,13 +75,13 @@ export function Tasks() {
             </div>
           </div>
         </section>
-        <section className="lg:col-span-5 space-y-8">
-          <div className="bg-surface-container-high rounded-[2rem] p-8 border border-white/5 relative overflow-hidden">
+        <section className="lg:col-span-5 space-y-6 lg:space-y-8">
+          <div className="bg-surface-container-high rounded-[2rem] p-6 sm:p-8 border border-white/5 relative overflow-hidden">
             <div className="absolute top-0 right-0 p-8 opacity-10">
-              <span className="material-symbols-outlined text-8xl" style={{ fontVariationSettings: "'FILL' 0" }}>vital_signs</span>
+              <span className="material-symbols-outlined text-6xl sm:text-8xl" style={{ fontVariationSettings: "'FILL' 0" }}>vital_signs</span>
             </div>
-            <h2 className="text-xl font-headline font-bold mb-8 flex items-center gap-2 text-white">
-              <span className="w-1.5 h-6 bg-primary rounded-full"></span>
+            <h2 className="text-lg sm:text-xl font-headline font-bold mb-6 lg:mb-8 flex items-center gap-2 text-white">
+              <span className="w-1.5 h-5 sm:h-6 bg-primary rounded-full"></span>
               Habit Pulse
             </h2>
             <div className="space-y-6 relative z-10">
