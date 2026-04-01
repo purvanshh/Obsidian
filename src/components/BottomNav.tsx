@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Home, CheckSquare, CalendarDays, FolderOpen, BarChart3, User } from 'lucide-react';
+import { Home, CheckSquare, CalendarDays, FolderOpen, BarChart3 } from 'lucide-react';
 import { LimelightNav } from './ui/limelight-nav';
 
 export function BottomNav() {
@@ -13,7 +13,6 @@ export function BottomNav() {
     { id: 'calendar', path: '/calendar', label: 'Calendar', icon: <CalendarDays /> },
     { id: 'files', path: '/files', label: 'Files', icon: <FolderOpen /> },
     { id: 'insights', path: '/insights', label: 'Data', icon: <BarChart3 /> },
-    { id: 'profile', path: '/profile', label: 'Profile', icon: <User /> },
   ];
 
   // Try exact match first, then prefix match

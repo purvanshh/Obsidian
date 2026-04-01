@@ -1,6 +1,6 @@
 export function Files() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 pb-24 lg:pb-12">
       {/* Header Section */}
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
         <div className="max-w-2xl">
@@ -17,7 +17,7 @@ export function Files() {
 
       {/* Filter Controls */}
       <div className="flex flex-wrap items-center gap-4 mb-12">
-        <div className="flex bg-surface-container-low p-1 rounded-xl">
+        <div className="flex bg-surface-container-low p-1 rounded-xl overflow-x-auto no-scrollbar max-w-full">
           <button className="px-6 py-2 bg-surface-container-high text-primary font-bold rounded-lg text-sm transition-all cursor-pointer">All Files</button>
           <button className="px-6 py-2 text-on-surface-variant hover:text-white font-medium rounded-lg text-sm transition-all cursor-pointer">Documents</button>
           <button className="px-6 py-2 text-on-surface-variant hover:text-white font-medium rounded-lg text-sm transition-all cursor-pointer">Assets</button>
@@ -107,7 +107,7 @@ export function Files() {
           </div>
         </div>
         
-        <div className="bg-surface-container-low rounded-2xl overflow-hidden overflow-x-auto border border-white/5">
+        <div className="bg-surface-container-low rounded-2xl overflow-x-auto border border-white/5 w-full max-w-[calc(100vw-2rem)] sm:max-w-full relative">
           <div className="min-w-[800px]">
             {/* List Header */}
             <div className="grid grid-cols-12 px-6 py-4 border-b border-white/5 text-[10px] uppercase font-black tracking-widest text-on-surface-variant">
