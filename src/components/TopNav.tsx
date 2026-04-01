@@ -10,7 +10,7 @@ export function TopNav() {
         MONOLITH
       </div>
       <div className="hidden md:flex items-center gap-8 font-headline font-bold tracking-tight text-sm">
-        <Link to="/" className={path === '/' ? "text-[#a2ffbf] border-b-2 border-[#a2ffbf] pb-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" : "text-[#adaaaa] hover:text-white transition-colors hover:scale-105 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"}>Dashboard</Link>
+        <Link to="/dashboard" className={path === '/dashboard' ? "text-[#a2ffbf] border-b-2 border-[#a2ffbf] pb-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" : "text-[#adaaaa] hover:text-white transition-colors hover:scale-105 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"}>Dashboard</Link>
         <Link to="/tasks" className={path === '/tasks' ? "text-[#a2ffbf] border-b-2 border-[#a2ffbf] pb-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" : "text-[#adaaaa] hover:text-white transition-colors hover:scale-105 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"}>Tasks</Link>
         <Link to="/insights" className={path === '/insights' ? "text-[#a2ffbf] border-b-2 border-[#a2ffbf] pb-1 transition-all duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]" : "text-[#adaaaa] hover:text-white transition-colors hover:scale-105 duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]"}>Analytics</Link>
       </div>

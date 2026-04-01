@@ -5,7 +5,7 @@ export function SideNav() {
   const path = location.pathname;
 
   const getLinkClass = (href: string) => {
-    const isActive = href === '/' ? path === '/' : path.startsWith(href);
+    const isActive = href === '/dashboard' ? path === '/dashboard' : path.startsWith(href);
     if (isActive) {
       return "flex items-center gap-3 px-4 py-3 bg-[#201f1f] text-[#a2ffbf] shadow-[0_0_15px_rgba(162,255,191,0.2)] rounded-lg transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]";
     }
@@ -29,8 +29,8 @@ export function SideNav() {
           New Project
         </button>
         <nav className="space-y-2 font-body text-sm font-medium">
-          <Link to="/" className={getLinkClass('/')}>
-            <span className="material-symbols-outlined" style={path === '/' ? { fontVariationSettings: "'FILL' 1" } : {}}>grid_view</span>
+          <Link to="/dashboard" className={getLinkClass('/dashboard')}>
+            <span className="material-symbols-outlined" style={path === '/dashboard' ? { fontVariationSettings: "'FILL' 1" } : {}}>grid_view</span>
             <span className="font-medium">Dashboard</span>
           </Link>
           <Link to="/tasks" className={getLinkClass('/tasks')}>

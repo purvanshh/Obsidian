@@ -5,7 +5,7 @@ export function BottomNav() {
   const path = location.pathname;
 
   const getLinkClass = (href: string) => {
-    const isActive = href === '/' ? path === '/' : path.startsWith(href);
+    const isActive = href === '/dashboard' ? path === '/dashboard' : path.startsWith(href);
     return `flex flex-col items-center justify-center transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-90 ${
       isActive ? 'text-[#a2ffbf] scale-110' : 'text-[#adaaaa]'
     }`;
@@ -13,8 +13,8 @@ export function BottomNav() {
 
   return (
     <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-[#080808]/80 backdrop-blur-lg border-t border-white/15 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] rounded-t-3xl h-20 px-6 pb-safe flex justify-around items-center">
-      <Link to="/" className={getLinkClass('/')}>
-        <span className="material-symbols-outlined" style={path === '/' ? { fontVariationSettings: "'FILL' 1" } : {}}>home</span>
+      <Link to="/dashboard" className={getLinkClass('/dashboard')}>
+        <span className="material-symbols-outlined" style={path === '/dashboard' ? { fontVariationSettings: "'FILL' 1" } : {}}>home</span>
         <span className="font-label text-[10px] uppercase tracking-widest mt-1">Home</span>
       </Link>
       <Link to="/tasks" className={getLinkClass('/tasks')}>
