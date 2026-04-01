@@ -1,42 +1,49 @@
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Home, CheckSquare, CalendarDays, FolderOpen, BarChart3, User } from 'lucide-react';
+import { LimelightNav } from './ui/limelight-nav';
 
 export function BottomNav() {
   const location = useLocation();
+  const navigate = useNavigate();
   const path = location.pathname;
 
-  const getLinkClass = (href: string) => {
-    const isActive = href === '/dashboard' ? path === '/dashboard' : path.startsWith(href);
-    return `flex flex-col items-center justify-center transition-transform duration-200 ease-[cubic-bezier(0.22,1,0.36,1)] active:scale-90 ${
-      isActive ? 'text-[#a2ffbf] scale-110' : 'text-[#adaaaa]'
-    }`;
+  const routes = [
+    { id: 'dashboard', path: '/dashboard', label: 'Home', icon: <Home /> },
+    { id: 'tasks', path: '/tasks', label: 'Tasks', icon: <CheckSquare /> },
+    { id: 'calendar', path: '/calendar', label: 'Calendar', icon: <CalendarDays /> },
+    { id: 'files', path: '/files', label: 'Files', icon: <FolderOpen /> },
+    { id: 'insights', path: '/insights', label: 'Data', icon: <BarChart3 /> },
+    { id: 'profile', path: '/profile', label: 'Profile', icon: <User /> },
+  ];
+
+  // Try exact match first, then prefix match
+  let activeIndex = routes.findIndex(route => path === route.path);
+  if (activeIndex === -1) {
+    activeIndex = routes.findIndex(route => path.startsWith(route.path) && route.path !== '/dashboard');
+  }
+  if (activeIndex === -1) {
+    activeIndex = 0; // Fallback
+  }
+
+  const handleTabChange = (index: number) => {
+    navigate(routes[index].path);
   };
 
+  const navItems = routes.map((route) => ({
+    id: route.id,
+    icon: route.icon,
+    label: route.label,
+  }));
+
   return (
-    <nav className="lg:hidden fixed bottom-0 left-0 w-full z-50 bg-[#080808]/80 backdrop-blur-lg border-t border-white/15 shadow-[0_-10px_30px_rgba(0,0,0,0.5)] h-20 px-2 sm:px-6 pb-safe flex items-center overflow-x-auto gap-4 sm:gap-6 no-scrollbar snap-x">
-      <Link to="/dashboard" className={`${getLinkClass('/dashboard')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path === '/dashboard' ? { fontVariationSettings: "'FILL' 1" } : {}}>home</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Home</span>
-      </Link>
-      <Link to="/tasks" className={`${getLinkClass('/tasks')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/tasks') ? { fontVariationSettings: "'FILL' 1" } : {}}>assignment</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Tasks</span>
-      </Link>
-      <Link to="/calendar" className={`${getLinkClass('/calendar')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/calendar') ? { fontVariationSettings: "'FILL' 1" } : {}}>calendar_today</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Calendar</span>
-      </Link>
-      <Link to="/files" className={`${getLinkClass('/files')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/files') ? { fontVariationSettings: "'FILL' 1" } : {}}>folder</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Files</span>
-      </Link>
-      <Link to="/insights" className={`${getLinkClass('/insights')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/insights') ? { fontVariationSettings: "'FILL' 1" } : {}}>bar_chart</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Data</span>
-      </Link>
-      <Link to="/profile" className={`${getLinkClass('/profile')} p-2 min-w-[64px] shrink-0 snap-center`}>
-        <span className="material-symbols-outlined text-[28px]" style={path.startsWith('/profile') ? { fontVariationSettings: "'FILL' 1" } : {}}>person</span>
-        <span className="font-label text-[10px] uppercase tracking-widest mt-1">Profile</span>
-      </Link>
-    </nav>
+    <div className="lg:hidden fixed bottom-6 left-1/2 -translate-x-1/2 z-50 w-max max-w-[calc(100vw-2rem)]">
+      <LimelightNav 
+        items={navItems}
+        defaultActiveIndex={activeIndex}
+        onTabChange={handleTabChange}
+        className="bg-[#080808]/90 backdrop-blur-xl border-white/10 shadow-[0_10px_40px_rgba(0,0,0,0.8)] px-1 sm:px-2 rounded-full w-full justify-between"
+        iconContainerClassName="p-2 sm:p-3"
+      />
+    </div>
   );
 }
