@@ -41,14 +41,14 @@ export function SideNav() {
             <span className="material-symbols-outlined" style={path.startsWith('/insights') ? { fontVariationSettings: "'FILL' 1" } : {}}>bar_chart</span>
             <span className="font-medium">Analytics</span>
           </Link>
-          <div className="text-[#adaaaa] hover:bg-white/5 rounded-lg px-4 py-3 flex items-center gap-3 cursor-pointer transition-all hover:scale-[1.02]">
-            <span className="material-symbols-outlined">calendar_today</span>
+          <Link to="/calendar" className={getLinkClass('/calendar')}>
+            <span className="material-symbols-outlined" style={path.startsWith('/calendar') ? { fontVariationSettings: "'FILL' 1" } : {}}>calendar_today</span>
             <span className="font-medium text-sm">Calendar</span>
-          </div>
-          <div className="text-[#adaaaa] hover:bg-white/5 rounded-lg px-4 py-3 flex items-center gap-3 cursor-pointer transition-all hover:scale-[1.02]">
-            <span className="material-symbols-outlined">folder</span>
+          </Link>
+          <Link to="/files" className={getLinkClass('/files')}>
+            <span className="material-symbols-outlined" style={path.startsWith('/files') ? { fontVariationSettings: "'FILL' 1" } : {}}>folder</span>
             <span className="font-medium text-sm">Files</span>
-          </div>
+          </Link>
         </nav>
       </div>
       <div className="mt-auto px-4 py-8 border-t border-white/5 space-y-1">
