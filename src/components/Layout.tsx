@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { motion } from 'framer-motion';
-import { PageTransition, interactiveButton } from '../lib/motion';
+import { PageTransition } from '../lib/motion';
+import { interactiveButton } from '../lib/motion-constants';
 import { TopNav } from './TopNav';
 import { SideNav } from './SideNav';
 import { BottomNav } from './BottomNav';

@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { SectionReveal, StaggerList, interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion';
+import { SectionReveal, StaggerList } from '../lib/motion';
+import { interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion-constants';
 
 export function Dashboard() {
   return (

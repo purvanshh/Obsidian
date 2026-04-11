@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { PageTransition, SectionReveal, StaggerList, interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion';
+import { PageTransition, SectionReveal, StaggerList } from '../lib/motion';
+import { interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion-constants';
 
 export function Landing() {
   const MotionLink = motion(Link);

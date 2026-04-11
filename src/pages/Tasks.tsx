@@ -4,12 +4,14 @@ import {
   PageTransition,
   SectionReveal,
   StaggerList,
+} from '../lib/motion';
+import {
   cardEntry,
   interactiveButton,
   interactiveCard,
   itemFadeUp,
   transitions,
-} from '../lib/motion';
+} from '../lib/motion-constants';
 
 type TaskItem = {
   id: string;
