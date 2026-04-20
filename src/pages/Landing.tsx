@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { PageTransition, SectionReveal, StaggerList } from '../lib/motion';
 import { interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion-constants';
 
-export function Landing() {
-  const MotionLink = motion(Link);
+const MotionLink = motion(Link);
 
+export function Landing() {
   return (
     <PageTransition as="div" className="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary">
       <nav className="fixed top-0 w-full z-50 flex justify-between items-center px-8 h-14 bg-[#0e0e0e]/80 backdrop-blur-xl shadow-[0px_0px_20px_rgba(162,255,191,0.06)]">
