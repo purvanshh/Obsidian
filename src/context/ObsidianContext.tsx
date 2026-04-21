@@ -66,6 +66,11 @@ type ObsidianContextType = {
   
   activities: ActivityLog[];
   addActivity: (icon: string, title: string, type: string, pts?: string) => void;
+
+  currentMonth: number;
+  currentYear: number;
+  nextMonth: () => void;
+  prevMonth: () => void;
 };
 
 const ObsidianContext = createContext<ObsidianContextType | undefined>(undefined);
@@ -154,6 +159,9 @@ export const ObsidianProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const saved = localStorage.getItem('obsidian_activities');
     return saved ? JSON.parse(saved) : INITIAL_ACTIVITIES;
   });
+
+  const [currentMonth, setCurrentMonth] = useState(() => new Date().getMonth());
+  const [currentYear, setCurrentYear] = useState(() => new Date().getFullYear());
 
   // Sync to local storage
   useEffect(() => {
@@ -255,6 +263,26 @@ export const ObsidianProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setActivities((prev) => [newLog, ...prev.slice(0, 9)]); // limit to 10 logs
   };
 
+  const nextMonth = () => {
+    setCurrentMonth((prev) => {
+      if (prev === 11) {
+        setCurrentYear((y) => y + 1);
+        return 0;
+      }
+      return prev + 1;
+    });
+  };
+
+  const prevMonth = () => {
+    setCurrentMonth((prev) => {
+      if (prev === 0) {
+        setCurrentYear((y) => y - 1);
+        return 11;
+      }
+      return prev - 1;
+    });
+  };
+
   return (
     <ObsidianContext.Provider
       value={{
@@ -272,6 +300,10 @@ export const ObsidianProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         updateProfile,
         activities,
         addActivity,
+        currentMonth,
+        currentYear,
+        nextMonth,
+        prevMonth,
       }}
     >
       {children}
