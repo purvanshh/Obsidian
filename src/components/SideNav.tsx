@@ -1,8 +1,10 @@
 import { Link, useLocation } from 'react-router-dom';
+import { useObsidian } from '../context/ObsidianContext';
 
 export function SideNav() {
   const location = useLocation();
   const path = location.pathname;
+  const { profile } = useObsidian();
 
   const getLinkClass = (href: string) => {
     const isActive = href === '/dashboard' ? path === '/dashboard' : path.startsWith(href);
@@ -20,12 +22,12 @@ export function SideNav() {
             <img 
               alt="User profile photo" 
               className="w-full h-full object-cover" 
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCOO76Ynccg_YozmRs2yrw9WOeZAWd_D7ru_Csmhe-064GDTQMyMocXC9TMnZe2ssxsF5l5nb1wz6bTBOeCc4Pre3enNMUtizwJXIXJ1XLBeeOFrVniZ6JEEVe54g078DKq024S1RZ8uH_KbepSHi0NgasPPQzsJ-gpq-_GWdBq7IBJfTnclZpW2Z9h8NRVuTXBBkKKDQvvY-y5j5JmslSMzP5y3uZNn85B3zrpniJnMVBF-7eKzRg4l4vZ8k-geHZ-aJDQ-tD2lD2"
+              src={profile.avatar}
             />
           </div>
           <div>
-            <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors">Alex Rivera</h3>
-            <p className="text-primary text-[10px] font-black uppercase tracking-widest">Pro Plan</p>
+            <h3 className="text-white font-bold text-sm group-hover:text-primary transition-colors">{profile.name}</h3>
+            <p className="text-primary text-[10px] font-black uppercase tracking-widest">{profile.plan}</p>
           </div>
         </Link>
         <button className="w-full bg-primary text-on-primary py-3 px-4 rounded-xl font-headline font-bold text-sm flex items-center justify-center gap-2 hover:shadow-[0_0_20px_rgba(162,255,191,0.4)] transition-all active:scale-95 mb-8">

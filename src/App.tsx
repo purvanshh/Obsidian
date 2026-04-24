@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
+import { ObsidianProvider } from './context/ObsidianContext';
 import { Layout } from './components/Layout';
 import { Landing } from './pages/Landing';
 import { Dashboard } from './pages/Dashboard';
@@ -29,9 +30,11 @@ function AppRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <AppRoutes />
-    </BrowserRouter>
+    <ObsidianProvider>
+      <BrowserRouter>
+        <AppRoutes />
+      </BrowserRouter>
+    </ObsidianProvider>
   );
 }
 
