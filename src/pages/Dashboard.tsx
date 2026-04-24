@@ -4,7 +4,7 @@ import { interactiveButton, interactiveCard, itemFadeUp, transitions } from '../
 import { useObsidian } from '../context/ObsidianContext';
 
 export function Dashboard() {
-  const { tasks } = useObsidian();
+  const { tasks, activities } = useObsidian();
 
   const completedTasksCount = tasks.filter(t => t.completed).length;
   const totalTasksCount = tasks.length;
@@ -110,13 +110,9 @@ export function Dashboard() {
             <motion.button className="text-primary text-sm font-bold focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70" {...interactiveButton}>View All</motion.button>
           </div>
           <div className="space-y-2">
-            {[
-              { icon: 'terminal', title: 'Core API Integration', subtitle: 'Pushed to production • 2h ago', pts: '+1,200 pts', type: 'Success' },
-              { icon: 'architecture', title: 'System Architecture Review', subtitle: 'Completed with 3 collaborators • 5h ago', pts: '+850 pts', type: 'Review' },
-              { icon: 'database', title: 'Database Optimization', subtitle: 'Scheduled maintenance • 8h ago', pts: '+400 pts', type: 'System' }
-            ].map((activity, idx) => (
+            {activities.map((activity, idx) => (
               <motion.div
-                key={idx}
+                key={activity.id}
                 className="flex items-center justify-between p-4 rounded-xl bg-surface-container-low hover:bg-surface-container-high cursor-pointer group"
                 variants={itemFadeUp}
                 initial="initial"
