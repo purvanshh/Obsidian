@@ -1,8 +1,19 @@
 import { motion } from 'framer-motion';
 import { SectionReveal, StaggerList } from '../lib/motion';
 import { interactiveButton, interactiveCard, itemFadeUp, transitions } from '../lib/motion-constants';
+import { useObsidian } from '../context/ObsidianContext';
 
 export function Dashboard() {
+  const { tasks } = useObsidian();
+
+  const completedTasksCount = tasks.filter(t => t.completed).length;
+  const totalTasksCount = tasks.length;
+  const taskProgressPercentage = totalTasksCount > 0 ? Math.round((completedTasksCount / totalTasksCount) * 100) : 0;
+  
+  // Custom productivity score combining task completion with active state
+  const score = totalTasksCount > 0 ? taskProgressPercentage : 100;
+  const strokeDashoffset = 691 - (691 * score) / 100;
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
       <SectionReveal as="header" className="mb-8 lg:mb-12 mt-2">
@@ -24,7 +35,7 @@ export function Dashboard() {
             <div className="space-y-4 lg:space-y-6 max-w-md">
               <h2 className="text-on-surface-variant text-[10px] sm:text-xs font-label uppercase tracking-[0.2em]">Live Performance</h2>
               <h3 className="text-3xl sm:text-4xl md:text-[2.5rem] font-headline font-bold text-white leading-tight">Your productivity is reaching peak levels.</h3>
-              <p className="text-on-surface-variant text-sm sm:text-base leading-relaxed">System analysis shows a 12% increase in cognitive throughput compared to last session. Keep the momentum.</p>
+              <p className="text-on-surface-variant text-sm sm:text-base leading-relaxed">System analysis shows a {score >= 70 ? 'healthy' : 'steady'} efficiency output in your current cycle. Keep the momentum.</p>
               <div className="flex gap-4 justify-center lg:justify-start">
                 <div className="px-3 py-1.5 sm:px-4 sm:py-2 bg-surface-container-highest rounded-full text-[10px] sm:text-xs font-bold text-primary flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-primary"></span>
@@ -35,10 +46,10 @@ export function Dashboard() {
             <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center mx-auto lg:mx-0 shrink-0">
               <svg className="w-full h-full -rotate-90" viewBox="0 0 256 256">
                 <circle className="text-surface-container-highest" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" strokeWidth="12"></circle>
-                <circle className="text-primary drop-shadow-[0_0_12px_rgba(162,255,191,0.6)]" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" strokeDasharray="691" strokeDashoffset="138" strokeLinecap="round" strokeWidth="12"></circle>
+                <circle className="text-primary drop-shadow-[0_0_12px_rgba(162,255,191,0.6)] animate-dash" cx="128" cy="128" fill="transparent" r="110" stroke="currentColor" strokeDasharray="691" strokeDashoffset={strokeDashoffset} strokeLinecap="round" strokeWidth="12" style={{ transition: 'stroke-dashoffset 0.8s cubic-bezier(0.22, 1, 0.36, 1)' }}></circle>
               </svg>
               <div className="absolute flex flex-col items-center">
-                <span className="text-5xl sm:text-6xl font-headline font-black text-white">82</span>
+                <span className="text-5xl sm:text-6xl font-headline font-black text-white">{score}</span>
                 <span className="text-[10px] sm:text-xs text-on-surface-variant font-label tracking-widest uppercase">Score</span>
               </div>
             </div>
@@ -55,12 +66,12 @@ export function Dashboard() {
         >
           <div className="flex justify-between items-start mb-6 lg:mb-10">
             <span className="material-symbols-outlined text-primary p-2.5 sm:p-3 bg-primary/10 rounded-2xl" style={{ fontVariationSettings: "'FILL' 1" }}>task_alt</span>
-            <span className="text-primary font-bold text-sm">+4 today</span>
+            <span className="text-primary font-bold text-sm">+{completedTasksCount} total</span>
           </div>
-          <div className="text-4xl sm:text-5xl font-headline font-black text-white mb-2">24</div>
+          <div className="text-4xl sm:text-5xl font-headline font-black text-white mb-2">{completedTasksCount}/{totalTasksCount}</div>
           <div className="text-on-surface-variant font-medium text-sm sm:text-base">Tasks Completed</div>
           <div className="mt-6 lg:mt-8 h-1 w-full bg-surface-container-highest rounded-full overflow-hidden">
-            <div className="h-full bg-primary w-3/4 rounded-full"></div>
+            <div className="h-full bg-primary rounded-full" style={{ width: `${taskProgressPercentage}%`, transition: 'width 0.8s cubic-bezier(0.22, 1, 0.36, 1)' }}></div>
           </div>
         </motion.div>
         <motion.div
