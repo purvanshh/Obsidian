@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
   PageTransition,
@@ -19,6 +19,14 @@ export function Tasks() {
   const { tasks, addTask: contextAddTask, toggleTask, deleteTask } = useObsidian();
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 600);
+    return () => clearTimeout(timer);
+  }, []);
 
   const addTask = () => {
     const trimmed = input.trim();
@@ -92,92 +100,110 @@ export function Tasks() {
             </h2>
 
             <StaggerList className="space-y-6">
-              <AnimatePresence initial={false}>
-                {tasks.map((task) => (
-                  <motion.div
-                    key={task.id}
-                    className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 gap-6 bg-surface-container-low rounded-3xl border border-white/5 hover:bg-surface-container-high/90 hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.5)] cursor-pointer"
-                    variants={itemFadeUp}
-                    initial="initial"
-                    animate="animate"
-                    exit="exit"
-                    layout
-                    {...interactiveCard}
-                  >
-                    <div className="flex items-start sm:items-center gap-5 sm:gap-6">
-                      <motion.button
-                        className={`shrink-0 mt-1 sm:mt-0 w-8 h-8 rounded-lg border-2 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70 transition-all ${
-                          task.completed ? 'border-primary bg-primary/10' : 'border-primary/40'
-                        }`}
-                        onClick={() => completeTask(task.id)}
-                        aria-label={`Complete ${task.title}`}
-                        {...interactiveButton}
-                      >
-                        <AnimatePresence initial={false}>
-                          {task.completed && (
-                            <motion.span
-                              key="checkmark"
-                              className="material-symbols-outlined text-primary text-[18px]"
-                              style={{ fontVariationSettings: "'wght' 700" }}
-                              initial={{ scale: 0, opacity: 0 }}
-                              animate={{ scale: 1, opacity: 1, transition: { ...transitions.fast } }}
-                              exit={{ scale: 0.5, opacity: 0, transition: { ...transitions.fast } }}
-                            >
-                              check
-                            </motion.span>
-                          )}
-                        </AnimatePresence>
-                      </motion.button>
-                      <div>
-                        <h3 className={`text-base sm:text-lg font-semibold tracking-tight leading-tight transition-all duration-300 ${
-                          task.completed ? 'text-on-surface-variant/40 line-through' : 'text-white'
-                        }`}>{task.title}</h3>
-                        <p className="text-xs text-on-surface-variant font-medium mt-1">{task.meta}</p>
+              <AnimatePresence mode="popLayout" initial={false}>
+                {isLoading ? (
+                  <>
+                    <motion.div
+                      key="skeleton-1"
+                      className="flex items-center p-5 bg-surface-container-low/40 rounded-2xl border border-white/5"
+                      variants={cardEntry}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                    >
+                      <div className="w-6 h-6 rounded-lg bg-surface-container-highest/50 mr-5"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 w-48 bg-surface-container-highest skeleton-shimmer rounded"></div>
+                        <div className="h-2 w-24 bg-surface-container-highest skeleton-shimmer rounded opacity-50"></div>
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3 shrink-0 lg:ml-auto">
-                      <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter self-start sm:self-auto">
-                        {task.badge}
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          deleteTask(task.id);
-                        }}
-                        className="text-on-surface-variant hover:text-error transition-colors p-1"
-                        aria-label="Delete task"
-                      >
-                        <span className="material-symbols-outlined text-[18px]">delete</span>
-                      </button>
-                    </div>
+                    </motion.div>
+                    <motion.div
+                      key="skeleton-2"
+                      className="flex items-center p-5 bg-surface-container-low/40 rounded-2xl border border-white/5"
+                      variants={cardEntry}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                    >
+                      <div className="w-6 h-6 rounded-lg bg-surface-container-highest/50 mr-5"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="h-3 w-36 bg-surface-container-highest skeleton-shimmer rounded"></div>
+                        <div className="h-2 w-20 bg-surface-container-highest skeleton-shimmer rounded opacity-50"></div>
+                      </div>
+                    </motion.div>
+                  </>
+                ) : tasks.length === 0 ? (
+                  <motion.div
+                    key="empty"
+                    className="text-center py-10 px-4 text-on-surface-variant font-medium text-sm border border-dashed border-white/10 rounded-2xl"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                  >
+                    No task protocols scheduled. Create one above!
                   </motion.div>
-                ))}
+                ) : (
+                  tasks.map((task) => (
+                    <motion.div
+                      key={task.id}
+                      className="group flex flex-col sm:flex-row sm:items-center justify-between p-6 sm:p-7 gap-6 bg-surface-container-low rounded-3xl border border-white/5 hover:bg-surface-container-high/90 hover:shadow-[0_15px_40px_-10px_rgba(0,0,0,0.5)] cursor-pointer"
+                      variants={itemFadeUp}
+                      initial="initial"
+                      animate="animate"
+                      exit="exit"
+                      layout
+                      {...interactiveCard}
+                    >
+                      <div className="flex items-start sm:items-center gap-5 sm:gap-6">
+                        <motion.button
+                          className={`shrink-0 mt-1 sm:mt-0 w-8 h-8 rounded-lg border-2 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70 transition-all ${
+                            task.completed ? 'border-primary bg-primary/10' : 'border-primary/40'
+                          }`}
+                          onClick={() => completeTask(task.id)}
+                          aria-label={`Complete ${task.title}`}
+                          {...interactiveButton}
+                        >
+                          <AnimatePresence initial={false}>
+                            {task.completed && (
+                              <motion.span
+                                key="checkmark"
+                                className="material-symbols-outlined text-primary text-[18px]"
+                                style={{ fontVariationSettings: "'wght' 700" }}
+                                initial={{ scale: 0, opacity: 0 }}
+                                animate={{ scale: 1, opacity: 1, transition: { ...transitions.fast } }}
+                                exit={{ scale: 0.5, opacity: 0, transition: { ...transitions.fast } }}
+                              >
+                                check
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                        </motion.button>
+                        <div>
+                          <h3 className={`text-base sm:text-lg font-semibold tracking-tight leading-tight transition-all duration-300 ${
+                            task.completed ? 'text-on-surface-variant/40 line-through' : 'text-white'
+                          }`}>{task.title}</h3>
+                          <p className="text-xs text-on-surface-variant font-medium mt-1">{task.meta}</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 shrink-0 lg:ml-auto">
+                        <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter self-start sm:self-auto">
+                          {task.badge}
+                        </span>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteTask(task.id);
+                          }}
+                          className="text-on-surface-variant hover:text-error transition-colors p-1"
+                          aria-label="Delete task"
+                        >
+                          <span className="material-symbols-outlined text-[18px]">delete</span>
+                        </button>
+                      </div>
+                    </motion.div>
+                  ))
+                )}
               </AnimatePresence>
-
-              <motion.div
-                className="flex items-center p-5 bg-surface-container-low/40 rounded-2xl border border-white/5"
-                variants={cardEntry}
-                initial="initial"
-                animate="animate"
-              >
-                <div className="w-6 h-6 rounded-lg bg-surface-container-highest/50 mr-5"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-3 w-48 bg-surface-container-highest skeleton-shimmer rounded"></div>
-                  <div className="h-2 w-24 bg-surface-container-highest skeleton-shimmer rounded opacity-50"></div>
-                </div>
-              </motion.div>
-              <motion.div
-                className="flex items-center p-5 bg-surface-container-low/40 rounded-2xl border border-white/5"
-                variants={cardEntry}
-                initial="initial"
-                animate="animate"
-              >
-                <div className="w-6 h-6 rounded-lg bg-surface-container-highest/50 mr-5"></div>
-                <div className="flex-1 space-y-2">
-                  <div className="h-3 w-36 bg-surface-container-highest skeleton-shimmer rounded"></div>
-                  <div className="h-2 w-20 bg-surface-container-highest skeleton-shimmer rounded opacity-50"></div>
-                </div>
-              </motion.div>
             </StaggerList>
           </SectionReveal>
         </section>
