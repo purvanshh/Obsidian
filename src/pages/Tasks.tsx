@@ -13,51 +13,22 @@ import {
   transitions,
 } from '../lib/motion-constants';
 
-type TaskItem = {
-  id: string;
-  title: string;
-  meta: string;
-  badge: string;
-};
-
-const INITIAL_TASKS: TaskItem[] = [
-  {
-    id: 'task-1',
-    title: 'Finalize Q4 Strategic Objectives',
-    meta: 'High Priority • Due 14:00',
-    badge: 'Strategic',
-  },
-  {
-    id: 'task-2',
-    title: 'Conduct System Integrity Audit',
-    meta: 'Medium • Monthly Recurring',
-    badge: 'System',
-  },
-];
+import { useObsidian } from '../context/ObsidianContext';
 
 export function Tasks() {
-  const [tasks, setTasks] = useState<TaskItem[]>(INITIAL_TASKS);
+  const { tasks, addTask: contextAddTask, toggleTask, deleteTask } = useObsidian();
   const [input, setInput] = useState('');
   const [isFocused, setIsFocused] = useState(false);
 
   const addTask = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
-
-    setTasks((prev) => [
-      {
-        id: `task-${crypto.randomUUID ? crypto.randomUUID() : Date.now()}`,
-        title: trimmed,
-        meta: 'New • Today',
-        badge: 'New',
-      },
-      ...prev,
-    ]);
+    contextAddTask(trimmed);
     setInput('');
   };
 
   const completeTask = (id: string) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
+    toggleTask(id);
   };
 
   return (
@@ -135,33 +106,49 @@ export function Tasks() {
                   >
                     <div className="flex items-start sm:items-center gap-5 sm:gap-6">
                       <motion.button
-                        className="shrink-0 mt-1 sm:mt-0 w-8 h-8 rounded-lg border-2 border-primary/40 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70"
+                        className={`shrink-0 mt-1 sm:mt-0 w-8 h-8 rounded-lg border-2 flex items-center justify-center focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary/70 transition-all ${
+                          task.completed ? 'border-primary bg-primary/10' : 'border-primary/40'
+                        }`}
                         onClick={() => completeTask(task.id)}
                         aria-label={`Complete ${task.title}`}
                         {...interactiveButton}
                       >
                         <AnimatePresence initial={false}>
-                          <motion.span
-                            key="checkmark"
-                            className="material-symbols-outlined text-primary text-[18px]"
-                            style={{ fontVariationSettings: "'wght' 700" }}
-                            initial={{ scale: 0, opacity: 0 }}
-                            animate={{ scale: 1, opacity: 1, transition: { ...transitions.fast } }}
-                            exit={{ scale: 0.5, opacity: 0, transition: { ...transitions.fast } }}
-                          >
-                            check
-                          </motion.span>
+                          {task.completed && (
+                            <motion.span
+                              key="checkmark"
+                              className="material-symbols-outlined text-primary text-[18px]"
+                              style={{ fontVariationSettings: "'wght' 700" }}
+                              initial={{ scale: 0, opacity: 0 }}
+                              animate={{ scale: 1, opacity: 1, transition: { ...transitions.fast } }}
+                              exit={{ scale: 0.5, opacity: 0, transition: { ...transitions.fast } }}
+                            >
+                              check
+                            </motion.span>
+                          )}
                         </AnimatePresence>
                       </motion.button>
                       <div>
-                        <h3 className="text-base sm:text-lg font-semibold text-white tracking-tight leading-tight">{task.title}</h3>
+                        <h3 className={`text-base sm:text-lg font-semibold tracking-tight leading-tight transition-all duration-300 ${
+                          task.completed ? 'text-on-surface-variant/40 line-through' : 'text-white'
+                        }`}>{task.title}</h3>
                         <p className="text-xs text-on-surface-variant font-medium mt-1">{task.meta}</p>
                       </div>
                     </div>
-                    <div className="flex shrink-0 lg:ml-auto">
+                    <div className="flex items-center gap-3 shrink-0 lg:ml-auto">
                       <span className="px-2.5 py-1 rounded-md bg-surface-container-highest text-[10px] font-bold text-on-surface-variant border border-white/5 uppercase tracking-tighter self-start sm:self-auto">
                         {task.badge}
                       </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          deleteTask(task.id);
+                        }}
+                        className="text-on-surface-variant hover:text-error transition-colors p-1"
+                        aria-label="Delete task"
+                      >
+                        <span className="material-symbols-outlined text-[18px]">delete</span>
+                      </button>
                     </div>
                   </motion.div>
                 ))}
