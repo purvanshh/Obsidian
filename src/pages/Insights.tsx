@@ -1,4 +1,32 @@
+import { useObsidian } from '../context/ObsidianContext';
+
 export function Insights() {
+  const { tasks, protocols } = useObsidian();
+
+  const completedCount = tasks.filter((t) => t.completed).length;
+  const totalCount = tasks.length;
+  const completionRate = totalCount > 0 ? ((completedCount / totalCount) * 100).toFixed(1) : '100.0';
+
+  // Calculate dynamic focus hours based on logged protocols (with baseline of 124.8)
+  const focusHours = protocols.reduce((acc, p) => {
+    if (p.type === 'Cognitive') return acc + 2;
+    if (p.type === 'Strategic') return acc + 1.5;
+    return acc + 1;
+  }, 124.8);
+
+  // Dynamic session average calculation (baseline + completion scaling)
+  const sessionAvgMinutes = Math.min(230 + completedCount * 14, 300);
+  const sessionHours = Math.floor(sessionAvgMinutes / 60);
+  const sessionMins = sessionAvgMinutes % 60;
+  const sessionAvgStr = `${sessionHours}h ${sessionMins}m`;
+
+  // Weekly goals calculations based on active context state
+  const deepWorkHours = protocols.filter((p) => p.type === 'Cognitive').length * 2 + 18;
+  const deepWorkPercentage = Math.min(Math.round((deepWorkHours / 30) * 100), 100);
+
+  const teamHours = protocols.filter((p) => p.type === 'System').length * 1.5 + 4;
+  const teamPercentage = Math.min(Math.round((teamHours / 10) * 100), 100);
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12">
       <header className="mb-10 sm:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6">
@@ -19,7 +47,7 @@ export function Insights() {
               <p className="text-on-surface-variant font-body text-xs sm:text-sm mt-1">Deep work distribution across the cycle.</p>
             </div>
             <div className="text-left sm:text-right">
-              <span className="text-3xl font-headline font-extrabold text-primary block">142.8h</span>
+              <span className="text-3xl font-headline font-extrabold text-primary block">{focusHours.toFixed(1)}h</span>
               <span className="text-[10px] sm:text-xs text-primary-container">+12% vs last period</span>
             </div>
           </div>
@@ -57,7 +85,7 @@ export function Insights() {
             </div>
             <div>
               <p className="text-on-surface-variant text-xs sm:text-sm font-medium">Session Avg</p>
-              <h4 className="text-2xl sm:text-3xl font-headline font-bold text-white leading-none mt-1">4h 12m</h4>
+              <h4 className="text-2xl sm:text-3xl font-headline font-bold text-white leading-none mt-1">{sessionAvgStr}</h4>
             </div>
           </div>
           <div className="bg-surface-container-high rounded-[2rem] p-6 sm:p-8 flex items-center gap-6 group hover:bg-surface-container-highest transition-colors">
@@ -66,7 +94,7 @@ export function Insights() {
             </div>
             <div>
               <p className="text-on-surface-variant text-xs sm:text-sm font-medium">Completion Rate</p>
-              <h4 className="text-2xl sm:text-3xl font-headline font-bold text-white leading-none mt-1">94.2%</h4>
+              <h4 className="text-2xl sm:text-3xl font-headline font-bold text-white leading-none mt-1">{completionRate}%</h4>
             </div>
           </div>
         </div>
@@ -84,17 +112,17 @@ export function Insights() {
               <div className="mt-6 space-y-4">
                 <div className="flex justify-between items-center">
                   <span className="text-on-surface-variant text-sm">Deep Work</span>
-                  <span className="text-white font-bold">24/30h</span>
+                  <span className="text-white font-bold">{deepWorkHours}/30h</span>
                 </div>
                 <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
-                  <div className="bg-primary h-full rounded-full" style={{ width: '80%' }}></div>
+                  <div className="bg-primary h-full rounded-full" style={{ width: `${deepWorkPercentage}%` }}></div>
                 </div>
                 <div className="flex justify-between items-center pt-2">
                   <span className="text-on-surface-variant text-sm">Team Collab</span>
-                  <span className="text-white font-bold">8/10h</span>
+                  <span className="text-white font-bold">{teamHours}/10h</span>
                 </div>
                 <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
-                  <div className="bg-tertiary h-full rounded-full" style={{ width: '60%' }}></div>
+                  <div className="bg-tertiary h-full rounded-full" style={{ width: `${teamPercentage}%` }}></div>
                 </div>
               </div>
             </div>
