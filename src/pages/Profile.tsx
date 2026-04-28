@@ -1,4 +1,30 @@
+import React, { useState } from 'react';
+import { useObsidian } from '../context/ObsidianContext';
+
 export function Profile() {
+  const { profile, updateProfile, protocols, tasks } = useObsidian();
+  const [showEditModal, setShowEditModal] = useState(false);
+  
+  // Form state
+  const [name, setName] = useState(profile.name);
+  const [title, setTitle] = useState(profile.title);
+  const [location, setLocation] = useState(profile.location);
+  const [plan, setPlan] = useState(profile.plan);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    updateProfile({
+      name: name.trim(),
+      title: title.trim(),
+      location: location.trim(),
+      plan: plan,
+    });
+    setShowEditModal(false);
+  };
+
+  const completedProtocolsCount = protocols.length + 39;
+  const focusHoursCount = Math.round(1240 + tasks.filter(t => t.completed).length * 4.5);
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-12 flex flex-col gap-8 lg:gap-12 mt-4 lg:mt-8">
       {/* Section 1: Operator Profile & Productivity Pulse (Editorial Grid) */}
@@ -10,23 +36,32 @@ export function Profile() {
             <div className="relative shrink-0">
               <div className="w-28 h-28 md:w-36 md:h-36 rounded-2xl overflow-hidden ring-4 ring-primary/20 group-hover:ring-primary/40 shadow-[0_0_20px_rgba(162,255,191,0.1)] transition-all duration-500">
                 <img 
-                  alt="Operator Alex Rivera" 
+                  alt={`Operator ${profile.name}`} 
                   className="w-full h-full object-cover" 
-                  src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5sKXrcmHYfNOlnA35TaR18sGx4IDLLu2HZJCsLC0WyxlXIjxiSS3nfjZLOa9dJZkZUW_VZcacFoVeS7icuSup9nFpUsBnfHJfg_7xrO3p7gSVhhN-G3Cdx0gsOXvpKGD_-j3UyoseeTkGZV1-O0bTVabKR3jVktWMSLltCl3CjhpLhylpnvyL5XL3wM-LfrihORz8-32wjim9ED52EA0B-2lQTg6tLJNAZFCXl8KxD4nxZ0CCbl9RPasQl_eUiElfpIWDVS__ctqJ" 
+                  src={profile.avatar} 
                 />
               </div>
               <div className="absolute -bottom-2 -right-2 bg-primary text-[#002913] px-3 py-1 text-[10px] sm:text-xs font-black uppercase tracking-widest rounded-lg shadow-lg">
-                PRO
+                {profile.plan.split(' ')[0]}
               </div>
             </div>
             
             <div className="flex flex-col gap-3 md:gap-4">
               <div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold tracking-tight text-white">Alex Rivera</h1>
-                <p className="text-on-surface-variant font-medium mt-1 text-sm md:text-base">Lead Protocol Architect • Silicon Valley, CA</p>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-headline font-bold tracking-tight text-white">{profile.name}</h1>
+                <p className="text-on-surface-variant font-medium mt-1 text-sm md:text-base">{profile.title} • {profile.location}</p>
               </div>
               <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mt-2">
-                <button className="bg-primary text-[#002913] px-6 py-2.5 rounded-lg font-bold text-xs sm:text-sm hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(162,255,191,0.3)] cursor-pointer">
+                <button 
+                  onClick={() => {
+                    setName(profile.name);
+                    setTitle(profile.title);
+                    setLocation(profile.location);
+                    setPlan(profile.plan);
+                    setShowEditModal(true);
+                  }}
+                  className="bg-primary text-[#002913] px-6 py-2.5 rounded-lg font-bold text-xs sm:text-sm hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(162,255,191,0.3)] cursor-pointer"
+                >
                   Edit Profile
                 </button>
                 <button className="bg-surface-container-highest text-white px-6 py-2.5 rounded-lg font-bold text-xs sm:text-sm border border-white/10 hover:bg-surface-container-high transition-all cursor-pointer">
@@ -44,7 +79,7 @@ export function Profile() {
               <h3 className="text-on-surface-variant font-headline font-bold text-[10px] md:text-xs uppercase tracking-[0.2em] mb-6">Productivity Pulse</h3>
               <div className="flex flex-col gap-4 md:gap-6">
                 <div>
-                  <span className="text-4xl md:text-5xl font-headline font-black text-white">1,248</span>
+                  <span className="text-4xl md:text-5xl font-headline font-black text-white">{focusHoursCount.toLocaleString()}</span>
                   <p className="text-on-surface-variant text-xs md:text-sm mt-1">Focus Hours Logged</p>
                 </div>
                 <div className="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden">
@@ -54,7 +89,7 @@ export function Profile() {
             </div>
             <div className="mt-8 pt-6 border-t border-white/10 flex justify-between items-end">
               <div>
-                <span className="text-2xl md:text-3xl font-headline font-bold text-primary">42</span>
+                <span className="text-2xl md:text-3xl font-headline font-bold text-primary">{completedProtocolsCount}</span>
                 <p className="text-[10px] md:text-xs text-on-surface-variant uppercase tracking-wider font-bold">Protocols Completed</p>
               </div>
               <span className="material-symbols-outlined text-primary-container text-4xl">bolt</span>
@@ -143,13 +178,81 @@ export function Profile() {
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 md:gap-8">
           <div className="max-w-md">
             <h3 className="text-error font-headline font-bold mb-2 text-lg">Deactivation Protocol</h3>
-            <p className="text-on-surface-variant text-xs sm:text-sm leading-relaxed">Permanently cease all operations and purge protocol archives. This action is irreversible.</p>
+            <p className="text-on-surface-variant text-xs sm:text-sm leading-relaxed font-body">Permanently cease all operations and purge protocol archives. This action is irreversible.</p>
           </div>
           <button className="bg-surface-container-lowest text-error/80 border border-error/20 px-6 md:px-8 py-3 rounded-lg text-sm font-bold hover:bg-error/10 hover:text-error transition-all active:scale-95 cursor-pointer w-full md:w-auto">
             Terminate Account
           </button>
         </div>
       </footer>
+
+      {/* Edit Profile Modal */}
+      {showEditModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-md p-4">
+          <div className="bg-surface-container-high border border-white/10 rounded-[2rem] p-8 w-full max-w-md shadow-2xl relative">
+            <h3 className="text-2xl font-headline font-bold text-white mb-6">Edit Profile</h3>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Operator Name</label>
+                <input 
+                  type="text" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full bg-surface-container-lowest border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Job Title</label>
+                <input 
+                  type="text" 
+                  value={title} 
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="w-full bg-surface-container-lowest border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Location</label>
+                <input 
+                  type="text" 
+                  value={location} 
+                  onChange={(e) => setLocation(e.target.value)}
+                  className="w-full bg-surface-container-lowest border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary"
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-2">Access Plan</label>
+                <select 
+                  value={plan} 
+                  onChange={(e) => setPlan(e.target.value)}
+                  className="w-full bg-surface-container-lowest border border-white/5 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary"
+                >
+                  <option value="Pro Plan">Pro Plan</option>
+                  <option value="Elite Plan">Elite Plan</option>
+                  <option value="Basic Plan">Basic Plan</option>
+                </select>
+              </div>
+              <div className="flex gap-4 pt-4">
+                <button 
+                  type="button" 
+                  onClick={() => setShowEditModal(false)}
+                  className="flex-1 py-3 border border-white/10 rounded-xl text-white hover:bg-white/5 font-bold transition-all"
+                >
+                  Cancel
+                </button>
+                <button 
+                  type="submit" 
+                  className="flex-1 py-3 bg-primary text-[#002913] rounded-xl font-bold hover:shadow-[0_0_20px_rgba(162,255,191,0.3)] transition-all"
+                >
+                  Save Changes
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
